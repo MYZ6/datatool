@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+# coding=utf-8
+
+#-------------------------
+# Copyright (c) 2015
+# Tanry Electronic Technology Co., Ltd.
+# ChangSha, China
+# All Rights Reserved.
+# 功能：将从SQLSERVER中导出的数据文件通过python脚本导入进Oracle中
+# 作者：liyzh
+# 时间：2015.5.8
+#-------------------------
+
+import os 
+os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.ZHS16GBK'
+
+import cx_Oracle
+# open connection to oracle
+conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
+cursor = conn.cursor()
+
+# 遍历原材料，查找出主供应商多于一个的原料-部门
+sql = "SELECT sbi.ITEM_ID, sbi.BRANCH_ID, COUNT(*) FROM D_T2_SUPPLIER_BRANCH_ITEM sbi \
+    WHERE sbi.PRIORITY = 0 GROUP BY sbi.ITEM_ID, sbi.BRANCH_ID HAVING COUNT(*) >1"
+# 获取第一个主供应商（保留为主供应商）
+selSql = "SELECT sbi.ITEM_ID, sbi.BRANCH_ID, sbi.SUPPLIER_ID FROM D_T2_SUPPLIER_BRANCH_ITEM sbi \
+    WHERE sbi.PRIORITY = 0 AND sbi.ITEM_ID = :1 AND sbi.BRANCH_ID = :2"
+# 除第一个主供应商，去除掉其它供应商的主属性
+updateSql = "update D_T2_SUPPLIER_BRANCH_ITEM sbi set sbi.PRIORITY = 1 \
+    where sbi.ITEM_ID = :1 and sbi.BRANCH_ID = :2 and sbi.SUPPLIER_ID ! = :3"
+
+updateArgs = []
+
+cursor.execute(sql)
+rows = cursor.fetchall()
+for row in rows:
+    itemId = row[0]
+    branchId = row[1]
+#     print itemId, branchId
+    cursor.execute(selSql, (itemId, branchId))
+    # 获取第一个主供应商（保留为主供应商）
+    row1 = cursor.fetchone()
+#     print row1
+    updateArgs.append(row1)
+
+# 批量更新
+cursor.executemany(updateSql, updateArgs)
+cursor.execute("commit")
+
+cursor.close()
+conn.close()
