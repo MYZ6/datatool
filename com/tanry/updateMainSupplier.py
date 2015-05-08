@@ -6,7 +6,7 @@
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# 功能：将从SQLSERVER中导出的数据文件通过python脚本导入进Oracle中
+# 功能：初始化数据时，有的原料存在两个甚至两个以上的主供应商，在这里对数据进行修正
 # 作者：liyzh
 # 时间：2015.5.8
 #-------------------------
