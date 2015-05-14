@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šæ¯ä¸ªåº“ä½åˆå§‹åŒ–ä¸€ç™¾äº”åä¸ªåŸæ–™ï¼Œå¤§æ¦‚äºŒåä¸ªåº“ä½ï¼Œä¸‰åƒä¸ªåŸæ–™ï¼ˆåŒ…æ‹¬åŠæˆå“ï¼‰
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.14
+# ¹¦ÄÜ£ºÃ¿¸ö¿âÎ»³õÊ¼»¯Ò»°ÙÎåÊ®¸öÔ­ÁÏ£¬´ó¸Å¶şÊ®¸ö¿âÎ»£¬ÈıÇ§¸öÔ­ÁÏ£¨°üÀ¨°ë³ÉÆ·£©
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.14
 #-------------------------
 
 import os 
@@ -21,14 +21,14 @@ cursor = conn.cursor()
 
 def formatSerial(serialNum):
     serial = str(serialNum);
-    addLength = 3 - len(serial) # è¡¥é½ä¸‰ä½æ•°ç¼–ç 
+    addLength = 3 - len(serial) # ²¹ÆëÈıÎ»Êı±àÂë
     i = 0
     while i < addLength:
         serial = "0" + serial
         i += 1
     return serial
 
-# éå†åŸææ–™
+# ±éÀúÔ­²ÄÁÏ
 materailSql = "select m.item_id, c.category_name from JONO.D_T2_ITEM_META m \
     inner join d_t2_item_category c on c.category_id = m.category_id \
     where m.ITEM_TYPE IN ('RAW', 'SEMIS')"
@@ -37,7 +37,7 @@ insertSql = insertSql = "INSERT INTO D_T2_SHELF_ITEM (SHELF_ID, ITEM_ID, PRIORIT
 
 insertArgs = []
 
-# æ¸…ç©ºè¡¨
+# Çå¿Õ±í
 cursor.execute("truncate table D_T2_SHELF_ITEM")
 
 cursor.execute(materailSql)
@@ -47,7 +47,7 @@ shelfCount = 1
 shelfId = "001"
 for row in rows:
     itemId = row[0]
-    if count % 150 == 0: # æ¯ä¸ªåº“ä½åˆå§‹åŒ–ä¸€ç™¾äº”åä¸ªåŸæ–™
+    if count % 150 == 0: # Ã¿¸ö¿âÎ»³õÊ¼»¯Ò»°ÙÎåÊ®¸öÔ­ÁÏ
         shelfCount += 1
         shelfId = formatSerial(shelfCount)
     insertArgs.append((shelfId, itemId))
@@ -59,4 +59,4 @@ cursor.execute("commit")
 cursor.close()
 conn.close()
 
-print('---------------------æ¯ä¸ªåº“ä½åˆå§‹åŒ–ä¸€ç™¾äº”åä¸ªåŸæ–™æ•°æ®æˆåŠŸï¼----------------------')
+print('---------------------Ã¿¸ö¿âÎ»³õÊ¼»¯Ò»°ÙÎåÊ®¸öÔ­ÁÏÊı¾İ³É¹¦£¡----------------------')

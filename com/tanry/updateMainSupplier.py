@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šåˆå§‹åŒ–æ•°æ®æ—¶ï¼Œæœ‰çš„åŸæ–™å­˜åœ¨ä¸¤ä¸ªç”šè‡³ä¸¤ä¸ªä»¥ä¸Šçš„ä¸»ä¾›åº”å•†ï¼Œåœ¨è¿™é‡Œå¯¹æ•°æ®è¿›è¡Œä¿®æ­£
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.8
+# ¹¦ÄÜ£º³õÊ¼»¯Êı¾İÊ±£¬ÓĞµÄÔ­ÁÏ´æÔÚÁ½¸öÉõÖÁÁ½¸öÒÔÉÏµÄÖ÷¹©Ó¦ÉÌ£¬ÔÚÕâÀï¶ÔÊı¾İ½øĞĞĞŞÕı
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.8
 #-------------------------
 
 import os 
@@ -19,13 +19,13 @@ import cx_Oracle
 conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
 cursor = conn.cursor()
 
-# éå†åŸææ–™ï¼ŒæŸ¥æ‰¾å‡ºä¸»ä¾›åº”å•†å¤šäºä¸€ä¸ªçš„åŸæ–™-éƒ¨é—¨
+# ±éÀúÔ­²ÄÁÏ£¬²éÕÒ³öÖ÷¹©Ó¦ÉÌ¶àÓÚÒ»¸öµÄÔ­ÁÏ-²¿ÃÅ
 sql = "SELECT sbi.ITEM_ID, sbi.BRANCH_ID, COUNT(*) FROM D_T2_SUPPLIER_BRANCH_ITEM sbi \
     WHERE sbi.PRIORITY = 0 GROUP BY sbi.ITEM_ID, sbi.BRANCH_ID HAVING COUNT(*) >1"
-# è·å–ç¬¬ä¸€ä¸ªä¸»ä¾›åº”å•†ï¼ˆä¿ç•™ä¸ºä¸»ä¾›åº”å•†ï¼‰
+# »ñÈ¡µÚÒ»¸öÖ÷¹©Ó¦ÉÌ£¨±£ÁôÎªÖ÷¹©Ó¦ÉÌ£©
 selSql = "SELECT sbi.ITEM_ID, sbi.BRANCH_ID, sbi.SUPPLIER_ID FROM D_T2_SUPPLIER_BRANCH_ITEM sbi \
     WHERE sbi.PRIORITY = 0 AND sbi.ITEM_ID = :1 AND sbi.BRANCH_ID = :2"
-# é™¤ç¬¬ä¸€ä¸ªä¸»ä¾›åº”å•†ï¼Œå»é™¤æ‰å…¶å®ƒä¾›åº”å•†çš„ä¸»å±æ€§
+# ³ıµÚÒ»¸öÖ÷¹©Ó¦ÉÌ£¬È¥³ıµôÆäËü¹©Ó¦ÉÌµÄÖ÷ÊôĞÔ
 updateSql = "update D_T2_SUPPLIER_BRANCH_ITEM sbi set sbi.PRIORITY = 1 \
     where sbi.ITEM_ID = :1 and sbi.BRANCH_ID = :2 and sbi.SUPPLIER_ID ! = :3"
 
@@ -33,22 +33,27 @@ updateArgs = []
 
 cursor.execute(sql)
 rows = cursor.fetchall()
+count = 0
 for row in rows:
     itemId = row[0]
     branchId = row[1]
-#     print itemId, branchId
+    print itemId, branchId
+    continue
+    count += 1
+    if count % 200 == 0:
+        print count # show progress, give hope
     cursor.execute(selSql, (itemId, branchId))
-    # è·å–ç¬¬ä¸€ä¸ªä¸»ä¾›åº”å•†ï¼ˆä¿ç•™ä¸ºä¸»ä¾›åº”å•†ï¼‰
+    # »ñÈ¡µÚÒ»¸öÖ÷¹©Ó¦ÉÌ£¨±£ÁôÎªÖ÷¹©Ó¦ÉÌ£©
     row1 = cursor.fetchone()
 #     print row1
     updateArgs.append(row1)
 
-# æ‰¹é‡æ›´æ–°
+# ÅúÁ¿¸üĞÂ
 cursor.executemany(updateSql, updateArgs)
 cursor.execute("commit")
 
 cursor.close()
 conn.close()
 
-print('---------------------ä¿®æ­£ä¸»ä¾›åº”å•†æ•°æ®æˆåŠŸï¼----------------------')
+print('---------------------ĞŞÕıÖ÷¹©Ó¦ÉÌÊı¾İ³É¹¦£¡----------------------')
 

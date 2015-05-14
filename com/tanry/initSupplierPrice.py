@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šåˆå§‹åŒ–æ‰€æœ‰çš„ä¾›åº”å•†ä»·æ ¼æ•°æ®ï¼Œè¦éå†æ‰€æœ‰åŸæ–™ã€ä»·æ ¼ï¼Œç›¸å½“è€—æ—¶
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.14
+# ¹¦ÄÜ£º³õÊ¼»¯ËùÓĞµÄ¹©Ó¦ÉÌ¼Û¸ñÊı¾İ£¬Òª±éÀúËùÓĞÔ­ÁÏ¡¢¼Û¸ñ£¬Ïàµ±ºÄÊ±
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.14
 #-------------------------
 
 import os 
@@ -19,28 +19,28 @@ import cx_Oracle
 conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
 cursor = conn.cursor()
 
-# é»˜è®¤ä½¿ç”¨è¿›è´§ä»·åˆå§‹åŒ–ä¾›åº”å•†çš„ä»·æ ¼
+# Ä¬ÈÏÊ¹ÓÃ½ø»õ¼Û³õÊ¼»¯¹©Ó¦ÉÌµÄ¼Û¸ñ
 priceSql = "SELECT item_price FROM JONO.d_t2_item_price p \
     where p.item_id = :1 and p.price_type = 'PURCHASE'"
 def getPurchasePrice(itemId):
 #     print itemId, priceSql
-    cursor.execute(priceSql, (itemId, )) # è§é¬¼ï¼Œè¿™ä¸ªé€—å·è¿˜éè¦ä¸å¯
-    # åˆ¤æ–­é—¨åº—ã€åŸæ–™ä¸ä¾›åº”å•†ä¸‰è€…çš„å…³ç³»æ•°æ®æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œåˆå§‹åŒ–ä¸€ä¸ªå€¼
+    cursor.execute(priceSql, (itemId, )) # ¼û¹í£¬Õâ¸ö¶ººÅ»¹·ÇÒª²»¿É
+    # ÅĞ¶ÏÃÅµê¡¢Ô­ÁÏÓë¹©Ó¦ÉÌÈıÕßµÄ¹ØÏµÊı¾İÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚ£¬³õÊ¼»¯Ò»¸öÖµ
     row = cursor.fetchone()
-    if row == None: # æœ‰ä¸€éƒ¨åˆ†åŸæ–™å­˜åœ¨ï¼Œä½†æ˜¯æ²¡æœ‰é‡‡è´­ä»·ï¼ˆè¿™è¯´æ˜å¤©å¤©ä¸å¾¡å•†çš„æ•°æ®å¹¶éæ˜¯å¤§å°é›†å…³ç³»ï¼Œè€Œæ˜¯äº¤é›†ä¹‹å¤–å„è‡ªè¿˜å­˜åœ¨ä¸åŒçš„æ•°æ®ï¼Œè¿™å¯èƒ½ä¼šå¼•å‘æ–°çš„é—®é¢˜ï¼‰
+    if row == None: # ÓĞÒ»²¿·ÖÔ­ÁÏ´æÔÚ£¬µ«ÊÇÃ»ÓĞ²É¹º¼Û£¨ÕâËµÃ÷ÌìÌìÓëÓùÉÌµÄÊı¾İ²¢·ÇÊÇ´óĞ¡¼¯¹ØÏµ£¬¶øÊÇ½»¼¯Ö®Íâ¸÷×Ô»¹´æÔÚ²»Í¬µÄÊı¾İ£¬Õâ¿ÉÄÜ»áÒı·¢ĞÂµÄÎÊÌâ£©
         return 0
     return row[0]
 
-# éå†åŸææ–™
+# ±éÀúÔ­²ÄÁÏ
 materailSql = "select m.item_id, c.category_name from JONO.D_T2_ITEM_META m \
     inner join d_t2_item_category c on c.category_id = m.category_id \
     where m.ITEM_TYPE IN ('RAW', 'SEMIS')"
-# åˆ¤æ–­é—¨åº—ã€åŸæ–™ä¸ä¾›åº”å•†ä¸‰è€…çš„å…³ç³»æ•°æ®æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œåˆå§‹åŒ–ä¸€ä¸ªå€¼
+# ÅĞ¶ÏÃÅµê¡¢Ô­ÁÏÓë¹©Ó¦ÉÌÈıÕßµÄ¹ØÏµÊı¾İÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚ£¬³õÊ¼»¯Ò»¸öÖµ
 selSupplierSql = "SELECT sbi.SUPPLIER_ID FROM D_T2_SUPPLIER_BRANCH_ITEM sbi \
     WHERE sbi.ITEM_ID = :1 AND sbi.BRANCH_ID = :2"
-# å¦‚æœä¸å­˜åœ¨ï¼Œåˆå§‹åŒ–ä¸€ä¸ªå€¼
+# Èç¹û²»´æÔÚ£¬³õÊ¼»¯Ò»¸öÖµ
 insertSql = "insert into  D_T2_SUPPLIER_BRANCH_ITEM(branch_id, item_id, supplier_id, PRIORITY) values (:1, :2, :3, 0)"
-# åˆå§‹åŒ–ä¾›åº”å•†ä»·æ ¼
+# ³õÊ¼»¯¹©Ó¦ÉÌ¼Û¸ñ
 insertPriceSql = "insert into JONO.d_t2_item_price(item_id, price_type, supplier_id, item_price, is_current) values(:1, 'SUPPLIER', :2, :3, 1)"
 
 
@@ -49,20 +49,20 @@ insertPriceArgs = []
 
 def scanRelation(itemId, branchId):
     cursor.execute(selSupplierSql, (itemId, branchId))
-    # åˆ¤æ–­é—¨åº—ã€åŸæ–™ä¸ä¾›åº”å•†ä¸‰è€…çš„å…³ç³»æ•°æ®æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œåˆå§‹åŒ–ä¸€ä¸ªå€¼
+    # ÅĞ¶ÏÃÅµê¡¢Ô­ÁÏÓë¹©Ó¦ÉÌÈıÕßµÄ¹ØÏµÊı¾İÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚ£¬³õÊ¼»¯Ò»¸öÖµ
     rows = cursor.fetchall()
     if rows: # if not empty
         for row in rows:
             supplierId = row[0]
             insertPriceArgs.append((itemId, supplierId, getPurchasePrice(itemId)))
     else:
-        # é»˜è®¤ä¾›åº”å•†
+        # Ä¬ÈÏ¹©Ó¦ÉÌ
         supplierId = "1001"
-        insertArgs.append((itemId, branchId, supplierId))
+        insertArgs.append((branchId, itemId, supplierId))
 #         print itemId
         insertPriceArgs.append((itemId, supplierId, getPurchasePrice(itemId)))
 
-# æ¸…ç©ºä¾›åº”å•†ä»·æ ¼æ•°æ®ï¼Œé‡æ–°è£…è½½
+# Çå¿Õ¹©Ó¦ÉÌ¼Û¸ñÊı¾İ£¬ÖØĞÂ×°ÔØ
 cursor.execute("delete from d_t2_item_price where supplier_id is not null")
 
 cursor.execute(materailSql)
@@ -71,20 +71,20 @@ count = 0
 for row in rows:
     itemId = row[0]
 #     print itemId
-    # æ›´æ–°ç‰©æµä¸­å¿ƒçš„æ•°æ®
+    # ¸üĞÂÎïÁ÷ÖĞĞÄµÄÊı¾İ
     branchId = "L00"
     scanRelation(itemId, branchId)
     count += 1
     if count % 200 == 0:
         print count # show progress, give hope
 
-# æ‰¹é‡æ’å…¥å…³ç³»è¡¨æ•°æ®
+# ÅúÁ¿²åÈë¹ØÏµ±íÊı¾İ
 cursor.executemany(insertSql, insertArgs)
-# æ‰¹é‡æ’å…¥ä¾›åº”å•†ä»·æ ¼æ•°æ®
+# ÅúÁ¿²åÈë¹©Ó¦ÉÌ¼Û¸ñÊı¾İ
 cursor.executemany(insertPriceSql, insertPriceArgs)
 cursor.execute("commit")
 
 cursor.close()
 conn.close()
 
-print('---------------------åˆå§‹åŒ–æ‰€æœ‰çš„ä¾›åº”å•†ä»·æ ¼æ•°æ®æˆåŠŸï¼----------------------')
+print('---------------------³õÊ¼»¯ËùÓĞµÄ¹©Ó¦ÉÌ¼Û¸ñÊı¾İ³É¹¦£¡----------------------')

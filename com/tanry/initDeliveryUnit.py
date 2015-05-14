@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šåˆå§‹åŒ–æ‰€æœ‰çš„é…é€å•ä½ã€é…æ–¹å•ä½ã€è¶…æ”¶ç‡ç­‰æ•°æ®
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.14
+# ¹¦ÄÜ£º³õÊ¼»¯ËùÓĞµÄÅäËÍµ¥Î»¡¢Åä·½µ¥Î»¡¢³¬ÊÕÂÊµÈÊı¾İ
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.14
 #-------------------------
 
 import os 
@@ -19,7 +19,7 @@ import cx_Oracle
 conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
 cursor = conn.cursor()
 
-# éå†åŸææ–™
+# ±éÀúÔ­²ÄÁÏ
 materailSql = "select m.item_id, item_dimension, c.category_name from JONO.D_T2_ITEM_META m \
     inner join d_t2_item_category c on c.category_id = m.category_id \
     where m.ITEM_TYPE IN ('RAW', 'SEMIS')"
@@ -28,7 +28,7 @@ insertSql = insertSql = "INSERT INTO D_T2_DELIVERY_UNIT (ITEM_ID, DELIVERY_UNIT,
 
 insertArgs = []
 
-# æ¸…ç©ºè¡¨
+# Çå¿Õ±í
 cursor.execute("truncate table D_T2_DELIVERY_UNIT")
 
 cursor.execute(materailSql)
@@ -45,4 +45,4 @@ cursor.execute("commit")
 cursor.close()
 conn.close()
 
-print('---------------------åˆå§‹åŒ–æ‰€æœ‰çš„ä¾›åº”å•†ä»·æ ¼æ•°æ®æˆåŠŸï¼----------------------')
+print('---------------------³õÊ¼»¯ËùÓĞµÄ¹©Ó¦ÉÌ¼Û¸ñÊı¾İ³É¹¦£¡----------------------')

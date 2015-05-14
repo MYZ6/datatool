@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šåˆå§‹åŒ–æ‰€æœ‰çš„é…é€æ–¹å¼æ•°æ®
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.14
+# ¹¦ÄÜ£º³õÊ¼»¯ËùÓĞµÄÅäËÍ·½Ê½Êı¾İ
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.14
 #-------------------------
 
 import os 
@@ -19,7 +19,7 @@ import cx_Oracle
 conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
 cursor = conn.cursor()
 
-# éå†åŸææ–™
+# ±éÀúÔ­²ÄÁÏ
 materailSql = "select m.item_id, c.category_name from JONO.D_T2_ITEM_META m \
     inner join d_t2_item_category c on c.category_id = m.category_id \
     where m.ITEM_TYPE IN ('RAW', 'SEMIS')"
@@ -28,7 +28,7 @@ insertSql = insertSql = "insert into  D_T2_DELIVERY_TYPE(region_id, item_id, del
 
 insertArgs = []
 
-deliveryType = "UNIFIED"; # åˆå§‹åŒ–ä¸ºç»Ÿé…
+deliveryType = "UNIFIED"; # ³õÊ¼»¯ÎªÍ³Åä
 def iterateRaw(regionLst):
     placeholderArr = []
     for i in range(1, len(regionLst) + 1):
@@ -36,7 +36,7 @@ def iterateRaw(regionLst):
     placeholders= ', '.join(placeholderArr)
     deleteSql = "delete from D_T2_DELIVERY_TYPE t where t.REGION_ID IN (%s)" % placeholders
 #     print deleteSql
-    # æ¸…ç©ºè¡¨
+    # Çå¿Õ±í
     cursor.execute(deleteSql, regionLst)
     print "delete records ", cursor.rowcount
     
@@ -58,4 +58,4 @@ cursor.execute("commit")
 cursor.close()
 conn.close()
 
-print('---------------------åˆå§‹åŒ–æ‰€æœ‰çš„é…é€æ–¹å¼æ•°æ®æˆåŠŸï¼----------------------')
+print('---------------------³õÊ¼»¯ËùÓĞµÄÅäËÍ·½Ê½Êı¾İ³É¹¦£¡----------------------')

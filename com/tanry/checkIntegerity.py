@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šæ£€æŸ¥åŸºç¡€æ•°æ®çš„å®Œæˆæ€§
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.14
+# ¹¦ÄÜ£º¼ì²é»ù´¡Êı¾İµÄÍê³ÉĞÔ
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.14
 #-------------------------
 
 import initDeliveryType

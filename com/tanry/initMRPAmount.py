@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# coding=utf-8
+# coding=gbk
 
 #-------------------------
 # Copyright (c) 2015
 # Tanry Electronic Technology Co., Ltd.
 # ChangSha, China
 # All Rights Reserved.
-# åŠŸèƒ½ï¼šåˆå§‹åŒ–æ‰€æœ‰çš„åœ¨é€”é‡ã€å·²åˆ†é…é‡(åŒ…æ‹¬ç‰©æµä¸­å¿ƒå’Œå¤®å‚)
-# ä½œè€…ï¼šliyzh
-# æ—¶é—´ï¼š2015.5.14
+# ¹¦ÄÜ£º³õÊ¼»¯ËùÓĞµÄÔÚÍ¾Á¿¡¢ÒÑ·ÖÅäÁ¿(°üÀ¨ÎïÁ÷ÖĞĞÄºÍÑë³§)
+# ×÷Õß£ºliyzh
+# Ê±¼ä£º2015.5.14
 #-------------------------
 
 import os 
@@ -19,7 +19,7 @@ import cx_Oracle
 conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
 cursor = conn.cursor()
 
-# éå†åŸææ–™
+# ±éÀúÔ­²ÄÁÏ
 materailSql = "select m.item_id, c.category_name from JONO.D_T2_ITEM_META m \
     inner join d_t2_item_category c on c.category_id = m.category_id \
     where m.ITEM_TYPE IN ('RAW', 'SEMIS')"
@@ -30,7 +30,7 @@ insertArgs = []
 
 def iterateRaw(branchId):
     deleteSql = "delete from D_T2_MRP_AMOUNT t where t.BRANCH_ID = :1"
-    # å…ˆåˆ é™¤æ•°æ®
+    # ÏÈÉ¾³ıÊı¾İ
     cursor.execute(deleteSql, (branchId, ))
     print "delete records ", cursor.rowcount
     
@@ -52,4 +52,4 @@ cursor.execute("commit")
 cursor.close()
 conn.close()
 
-print('---------------------åˆå§‹åŒ–æ‰€æœ‰çš„åœ¨é€”é‡ã€å·²åˆ†é…é‡(åŒ…æ‹¬ç‰©æµä¸­å¿ƒå’Œå¤®å‚)æˆåŠŸï¼----------------------')
+print('---------------------³õÊ¼»¯ËùÓĞµÄÔÚÍ¾Á¿¡¢ÒÑ·ÖÅäÁ¿(°üÀ¨ÎïÁ÷ÖĞĞÄºÍÑë³§)³É¹¦£¡----------------------')
