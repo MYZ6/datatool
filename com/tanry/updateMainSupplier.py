@@ -38,8 +38,6 @@ count = 0
 for row in rows:
     itemId = row[0]
     branchId = row[1]
-    print itemId, branchId
-    continue
     count += 1
     if count % 200 == 0:
         print count # show progress, give hope
@@ -51,6 +49,7 @@ for row in rows:
 
 # 批量更新
 cursor.executemany(updateSql, updateArgs)
+print "update records ", cursor.rowcount
 cursor.execute("commit")
 
 cursor.close()
