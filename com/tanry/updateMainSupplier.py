@@ -49,3 +49,6 @@ cursor.execute("commit")
 
 cursor.close()
 conn.close()
+
+print('---------------------修正主供应商数据成功！----------------------')
+
