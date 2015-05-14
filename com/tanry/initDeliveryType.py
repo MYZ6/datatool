@@ -15,8 +15,9 @@ import os
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.ZHS16GBK'
 
 import cx_Oracle
+from com.tanry.config import ipAddr, username, password
 # open connection to oracle
-conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
+conn = cx_Oracle.connect(username + '/' + password + '@' + ipAddr + '/jono')
 cursor = conn.cursor()
 
 # ±È¿˙‘≠≤ƒ¡œ
