@@ -24,8 +24,8 @@ cursor = conn.cursor()
 materailSql = "select m.item_id, item_dimension, c.category_name from JONO.D_T2_ITEM_META m \
     inner join d_t2_item_category c on c.category_id = m.category_id \
     where m.ITEM_TYPE IN ('RAW', 'SEMIS')"
-insertSql = insertSql = "INSERT INTO D_T2_DELIVERY_UNIT (ITEM_ID, DELIVERY_UNIT, DELIVERY_FACTOR, RECIPE_UNIT, RECIPE_FACTOR, UNIT_VOLUME, UNIT_WEIGHT, OUT_RECEIVE_RATE) \
-               VALUES (:1, :2, 1, :3, 1, 1, 100, 1.3)"
+insertSql = insertSql = "INSERT INTO D_T2_DELIVERY_UNIT (ITEM_ID, DELIVERY_UNIT, DELIVERY_FACTOR, RECIPE_UNIT, RECIPE_FACTOR, UNIT_VOLUME, UNIT_WEIGHT, MIN_ORDER_COUNT, OUT_RECEIVE_RATE) \
+               VALUES (:1, :2, 1, :3, 1, 1, 100, 1, 1.3)"
 
 insertArgs = []
 
@@ -46,4 +46,4 @@ cursor.execute("commit")
 cursor.close()
 conn.close()
 
-print('---------------------初始化所有的供应商价格数据成功！----------------------')
+print('---------------------初始化所有的配送单位、配方单位、超收率等数据成功！----------------------')
