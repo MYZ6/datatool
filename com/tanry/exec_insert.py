@@ -13,7 +13,6 @@
 
 import os
 import time
-import datetime
 import cx_Oracle
 
 #set chinese encoding
@@ -27,7 +26,6 @@ cursor = conn.cursor()
 start = time.clock()
 f = open("inout2.sql", 'r')
 lines = f.readlines()
-param = []
 i = 0
 for line in lines:
 #     if i % 300 == 0 and i > 0:

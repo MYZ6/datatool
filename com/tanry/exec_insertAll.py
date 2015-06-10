@@ -23,42 +23,45 @@ os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.ZHS16GBK'
 conn = cx_Oracle.connect('jono/jono@10.1.1.105/jono')
 cursor = conn.cursor()
 
-f = open("inout2.sql", 'r')
-lines = f.readlines()
-param = []
-i = 0
-all_sql = []
-new_sql = "insert all "
-for line in lines:
-#构建insert all
-    if i % 300 == 0 and i > 0:
+def insertAll(fileName):
+    f = open(fileName, 'r')
+    lines = f.readlines()
+    i = 0
+    all_sql = []
+    new_sql = "insert all "
+    for line in lines:
+    #构建insert all
+        if i % 300 == 0 and i > 0:
+            new_sql += " select 1 from dual"
+            all_sql.append(new_sql)
+    #         print new_sql
+            new_sql = "insert all "
+    #         print i
+        trim_sql = line[7:-2]
+    #     print trim_sql
+        new_sql += trim_sql + " "
+        i += 1
+    f.close()
+    
+    # handle tail data
+    if (i - 1) % 300 != 0:
         new_sql += " select 1 from dual"
         all_sql.append(new_sql)
-#         print new_sql
-        new_sql = "insert all "
-#         print i
-    trim_sql = line[7:-2]
-#     print trim_sql
-    new_sql += trim_sql + " "
-    i += 1
-f.close()
+    
+    print len(all_sql)
+    # print all_sql
+    
+    start = time.clock()
+    for sql in all_sql:
+    #     print time.clock()
+        cursor.execute(sql)
+    
+    end = time.clock()
+    print fileName + " : " + str(end-start)
+    cursor.execute("commit")
 
-# handle tail data
-if (i - 1) % 300 != 0:
-    new_sql += " select 1 from dual"
-    all_sql.append(new_sql)
-
-print len(all_sql)
-# print all_sql
-
-start = time.clock()
-for sql in all_sql:
-#     print time.clock()
-    cursor.execute(sql)
-
-end = time.clock()
-print end-start
-cursor.execute("commit")
+# insertAll("cdetail.sql")
+insertAll("storage.sql")
 
 cursor.close()
 conn.close()
